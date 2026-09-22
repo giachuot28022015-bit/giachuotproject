@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đăng nhập - Gia Chuột project</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Be Vietnam Pro',sans-serif;
+  background:#0a0f1e;color:#f1f5f9;
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background-image:
+    radial-gradient(ellipse at 20% 20%,#3b82f620 0%,transparent 50%),
+    radial-gradient(ellipse at 80% 80%,#8b5cf615 0%,transparent 50%);
+}
+.box{
+  background:rgba(30,41,59,0.85);
+  border:1px solid #1e293b;border-radius:24px;
+  padding:2.5rem 2rem;width:100%;max-width:400px;
+  backdrop-filter:blur(20px);
+  box-shadow:0 25px 60px rgba(0,0,0,0.4);
+  text-align:center;
+}
+.logo-icon{font-size:3.5rem;display:block;margin-bottom:.6rem;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+h1{
+  font-size:1.6rem;font-weight:800;
+  background:linear-gradient(135deg,#38bdf8,#818cf8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:.3rem;
+}
+.sub{font-size:.85rem;color:#64748b;margin-bottom:2rem}
+
+/* GOOGLE BTN */
+.btn-google{
+  width:100%;padding:14px;
+  border-radius:14px;border:1.5px solid #334155;
+  background:#1e293b;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  cursor:pointer;
+  font-family:'Be Vietnam Pro',sans-serif;
+  font-size:1rem;font-weight:600;color:#f1f5f9;
+  transition:all .25s cubic-bezier(.34,1.56,.64,1);
+  animation:btnFloat 3s ease-in-out infinite;
+}
+@keyframes btnFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.btn-google:hover{
+  border-color:#38bdf8;
+  box-shadow:0 8px 24px #38bdf830;
+  transform:translateY(-8px) scale(1.03)!important;
+  animation-play-state:paused;
+}
+.g-icon{width:24px;height:24px;flex-shrink:0}
+
+/* LOADING */
+.loader{display:inline-block;width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ERROR */
+.err{background:#ef444415;border:1px solid #ef444430;border-radius:10px;padding:.7rem 1rem;font-size:.82rem;color:#f87171;margin-top:1rem;display:none}
+
+/* SUCCESS */
+.success{display:none;padding:1rem 0}
+.av{width:72px;height:72px;border-radius:50%;border:3px solid #38bdf8;margin:0 auto 1rem;display:block;animation:float 3s ease-in-out infinite}
+.uname{font-size:1.2rem;font-weight:700;margin-bottom:.2rem}
+.uemail{font-size:.85rem;color:#64748b;margin-bottom:1.5rem}
+.btn-go{
+  width:100%;padding:14px;border-radius:14px;border:none;
+  background:linear-gradient(135deg,#38bdf8,#6366f1);
+  color:#fff;font-family:'Be Vietnam Pro',sans-serif;
+  font-size:1rem;font-weight:700;cursor:pointer;
+  box-shadow:0 6px 20px #38bdf840;
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s;
+  animation:btnFloat 2.5s ease-in-out infinite;
+}
+.btn-go:hover{transform:translateY(-6px) scale(1.03)!important;box-shadow:0 12px 30px #38bdf850;animation-play-state:paused}
+.btn-out{
+  width:100%;padding:11px;border-radius:14px;
+  border:1.5px solid #334155;background:transparent;
+  color:#94a3b8;font-family:'Be Vietnam Pro',sans-serif;
+  font-size:.88rem;font-weight:600;cursor:pointer;
+  margin-top:.8rem;transition:all .2s;
+}
+.btn-out:hover{border-color:#ef4444;color:#f87171}
+.redirect{font-size:.78rem;color:#64748b;margin-top:.6rem}
+.countdown-bar{height:3px;background:linear-gradient(90deg,#38bdf8,#6366f1);border-radius:2px;margin-top:.5rem;transition:width linear}
+</style>
+</head>
+<body>
+<div class="box">
+  <span class="logo-icon">🐱</span>
+  <h1>Gia Chuột Menu</h1>
+  <p class="sub">Đăng nhập để tiếp tục</p>
+
+  <!-- FORM ĐĂNG NHẬP -->
+  <div id="loginForm">
+    <button class="btn-google" onclick="loginGoogle()" id="btnGoogle">
+      <svg class="g-icon" viewBox="0 0 48 48">
+        <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.2l6.8-6.8C35.8 2.5 30.2 0 24 0 14.8 0 7 5.4 3.2 13.3l7.9 6.1C13 13.8 18 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4 6.9-10 6.9-17z"/>
+        <path fill="#FBBC05" d="M11.1 28.6A14.6 14.6 0 0 1 9.5 24c0-1.6.3-3.1.7-4.6l-7.9-6.1A23.9 23.9 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l8.5-6.2z"/>
+        <path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7.5-5.8c-2 1.4-4.6 2.2-7.7 2.2-5.9 0-10.9-4-12.7-9.3l-8.5 6.2C6.9 42.5 14.8 48 24 48z"/>
+      </svg>
+      Đăng nhập bằng Google
+    </button>
+    <div class="err" id="errMsg"></div>
+  </div>
+
+  <!-- SAU KHI ĐĂNG NHẬP -->
+  <div class="success" id="successBox">
+    <img class="av" id="uAvatar" src="" alt="">
+    <div class="uname" id="uName"></div>
+    <div class="uemail" id="uEmail"></div>
+    <button class="btn-go" onclick="goToSite()">Vào trang Gia Chuột Menu →</button>
+    <div class="redirect" id="redirectMsg"></div>
+    <div class="countdown-bar" id="cBar" style="width:100%"></div>
+    <button class="btn-out" onclick="doSignOut()">Đăng xuất</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup,
+         onAuthStateChanged, setPersistence, browserLocalPersistence,
+         signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyAKBh4fZQmhzmMOf_nT-GqxYGI2Fbgx0sI",
+  authDomain:        "scancode-bbe9069a.firebaseapp.com",
+  projectId:         "scancode-bbe9069a",
+  storageBucket:     "scancode-bbe9069a.firebasestorage.app",
+  messagingSenderId: "1091329949956",
+  appId:             "1:1091329949956:web:2352a0130f9bc722419051"
+};
+
+const TARGET_URL = "https://giachuotproject.vercel.app/giachuotproject.html";
+
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+auth.languageCode = 'vi';
+
+setPersistence(auth, browserLocalPersistence).catch(console.error);
+
+// Kiểm tra đã đăng nhập chưa
+onAuthStateChanged(auth, (user) => {
+  if (user) showSuccess(user);
+});
+
+// Đăng nhập Google
+window.loginGoogle = async () => {
+  const btn = document.getElementById('btnGoogle');
+  btn.innerHTML = '<span class="loader"></span> Đang xử lý...';
+  btn.disabled = true;
+  document.getElementById('errMsg').style.display = 'none';
+  try {
+    const result = await signInWithPopup(auth, new GoogleAuthProvider());
+    showSuccess(result.user);
+  } catch(e) {
+    const msgs = {
+      'auth/popup-closed-by-user':    'Bạn đã đóng cửa sổ đăng nhập!',
+      'auth/cancelled-popup-request': 'Yêu cầu bị huỷ, thử lại nhé!',
+      'auth/network-request-failed':  'Lỗi mạng, kiểm tra kết nối!',
+      'auth/unauthorized-domain':     'Domain chưa được cấp phép trong Firebase!',
+    };
+    const el = document.getElementById('errMsg');
+    el.textContent = msgs[e.code] || 'Lỗi: ' + e.code;
+    el.style.display = 'block';
+    btn.innerHTML = '<svg class="g-icon" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.2l6.8-6.8C35.8 2.5 30.2 0 24 0 14.8 0 7 5.4 3.2 13.3l7.9 6.1C13 13.8 18 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4 6.9-10 6.9-17z"/><path fill="#FBBC05" d="M11.1 28.6A14.6 14.6 0 0 1 9.5 24c0-1.6.3-3.1.7-4.6l-7.9-6.1A23.9 23.9 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l8.5-6.2z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7.5-5.8c-2 1.4-4.6 2.2-7.7 2.2-5.9 0-10.9-4-12.7-9.3l-8.5 6.2C6.9 42.5 14.8 48 24 48z"/></svg> Đăng nhập bằng Google';
+    btn.disabled = false;
+  }
+};
+
+function showSuccess(user) {
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('successBox').style.display = 'block';
+  document.getElementById('uName').textContent  = user.displayName || 'Người dùng';
+  document.getElementById('uEmail').textContent = user.email || '';
+  if (user.photoURL) document.getElementById('uAvatar').src = user.photoURL;
+
+  // Đếm ngược 3 giây rồi chuyển trang
+  let s = 3;
+  const msg  = document.getElementById('redirectMsg');
+  const bar  = document.getElementById('cBar');
+  msg.textContent = `Tự động chuyển sau ${s}s...`;
+  bar.style.transition = 'width 3s linear';
+  setTimeout(() => { bar.style.width = '0%'; }, 50);
+  const t = setInterval(() => {
+    s--;
+    msg.textContent = s > 0 ? `Tự động chuyển sau ${s}s...` : 'Đang chuyển...';
+    if (s <= 0) { clearInterval(t); goToSite(); }
+  }, 1000);
+}
+
+window.goToSite  = () => { window.location.href = TARGET_URL; };
+window.doSignOut = async () => { await signOut(auth); location.reload(); };
+</script>
+</body>
+</html>
